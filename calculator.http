@@ -1,0 +1,8 @@
+### Casos felíces
+POST http://localhost:8000/cdu/add_then_double/
+Content-Type: application/json
+
+{
+  "a": 5,
+  "b": 3
+}
