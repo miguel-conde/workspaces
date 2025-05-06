@@ -1,0 +1,39 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "run‑addition",
+        "type": "shell",
+        // "command": "uvicorn addition_ms.main:app --reload --port 8001",
+        "command": "python -m debugpy --listen 5671 -m uvicorn addition_ms.main:app --port 8001 --reload",
+        "isBackground": false,        // se queda en primer plano mostrando logs
+        "presentation": { "panel": "dedicated" }
+      },
+      {
+        "label": "run‑multiply",
+        "type": "shell",
+        // "command": "uvicorn multiply_ms.main:app --reload --port 8002",
+        "command": "python -m debugpy --listen 5672 -m uvicorn multiply_ms.main:app --port 8002 --reload",
+        "isBackground": false,        // se queda en primer plano mostrando logs
+        "presentation": { "panel": "dedicated" }
+      },
+      {
+        "label": "run‑cdu",
+        "type": "shell",
+        // "command": "uvicorn calc_cdu.main:app --reload --port 8000",
+        "command": "python -m debugpy --listen 5673 -m uvicorn calc_cdu.main:app --port 8000 --reload",
+        "isBackground": false,        // se queda en primer plano mostrando logs
+        "options": { "env": { "HTTPX_LOG_LEVEL": "debug" } },   // mismo log detallado
+        "presentation": { "panel": "dedicated" }
+      },
+
+      /* OPCIONAL‑BONUS: tarea compuesta que lanza las tres de golpe */
+      {
+        "label": "run‑all",
+        "dependsOn": ["run‑addition", "run‑multiply", "run‑cdu"],
+        "dependsOrder": "parallel",
+        "group": "build"
+      }
+    ]
+  }
+  

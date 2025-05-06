@@ -37,30 +37,67 @@ Puedes mantener **ambos** y elegir según la situación.
 {
   "version": "0.2.0",
   "configurations": [
+    /* ───── servicios en modo launch ───── */
     {
       "name": "Debug - CDU",
       "type": "python",
       "request": "launch",
       "module": "uvicorn",
       "args": ["calc_cdu.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"],
-      "env": { "HTTPX_LOG_LEVEL": "debug" },   // muestra tráfico interno HTTP
+      "env": { "HTTPX_LOG_LEVEL": "debug" },
       "jinja": true,
-      "justMyCode": true                         // ignora site‑packages al hacer step
+      "justMyCode": true
     },
-    { "name": "Debug - Addition‑MS",  "type": "python", "request": "launch", "module": "uvicorn", "args": ["addition_ms.main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"], "jinja": true, "justMyCode": true },
-    { "name": "Debug - Multiply‑MS", "type": "python", "request": "launch", "module": "uvicorn", "args": ["multiply_ms.main:app", "--host", "0.0.0.0", "--port", "8002", "--reload"], "jinja": true, "justMyCode": true }
+    {
+      "name": "Debug - Addition‑MS",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["addition_ms.main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"],
+      "jinja": true,
+      "justMyCode": true
+    },
+    {
+      "name": "Debug - Multiply‑MS",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["multiply_ms.main:app", "--host", "0.0.0.0", "--port", "8002", "--reload"],
+      "jinja": true,
+      "justMyCode": true
+    },
+
+    /* ───── servicios en modo attach ───── */
+    {
+      "name": "Attach CDU",
+      "type": "python",
+      "request": "attach",
+      "connect": { "host": "localhost", "port": 5673 }
+    },
+    {
+      "name": "Attach Addition‑MS",
+      "type": "python",
+      "request": "attach",
+      "connect": { "host": "localhost", "port": 5671 }
+    },
+    {
+      "name": "Attach Multiply‑MS",
+      "type": "python",
+      "request": "attach",
+      "connect": { "host": "localhost", "port": 5672 }
+    }
   ],
+
   "compounds": [
     {
       "name": "Debug - Todos",
-      "configurations": ["Debug - Addition‑MS", "Debug - Multiply‑MS", "Debug - CDU"],
+      "configurations": [
+        "Debug - Addition‑MS",
+        "Debug - Multiply‑MS",
+        "Debug - CDU"
+      ],
       "stopAll": true
     }
-  ],
-  "configurations": [
-    { "name": "Attach CDU",        "type": "python", "request": "attach", "connect": { "host": "localhost", "port": 5673 } },
-    { "name": "Attach Addition‑MS", "type": "python", "request": "attach", "connect": { "host": "localhost", "port": 5671 } },
-    { "name": "Attach Multiply‑MS", "type": "python", "request": "attach", "connect": { "host": "localhost", "port": 5672 } }
   ]
 }
 ```
@@ -141,7 +178,7 @@ Shift+F5    →  detienes debug # los servidores SIGUEN corriendo
 **¿Por qué Attach no para en breakpoints?**
 Asegúrate de usar la configuración *Attach* correcta (puertos 5671‑5673) y que el breakpoint esté en código cargado.
 
-**Recibo `KeyError: 'data'` al leer la respuesta**
+**Recibo **************\`\`************** al leer la respuesta**
 Mira la terminal del CDU: verás un `DEBUG httpx` con `422` que indica que el JSON enviado no coincide con el modelo del microservicio.
 
 ---
@@ -165,4 +202,5 @@ sequenceDiagram
 Con esta guía cualquier miembro del equipo puede:
 
 1. **Arrancar** la pila mock.
-2. **Depurar** toda la cadena o sólo un servic
+2. **Depurar** toda la cadena o sólo un servicio.
+3. **Ver** el tráfico interno y diagnosticar errores en minutos.

@@ -1,0 +1,70 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      /* ───── servicios en modo launch ───── */
+      /* ───── individuales ───── */
+      {
+        "name": "Debug - CDU",
+        "type": "python",
+        "request": "launch",
+        "module": "uvicorn",
+        "env": {            // 0.3 → log detallado de httpx
+          "HTTPX_LOG_LEVEL": "debug"
+        },
+        "args": [
+          "calc_cdu.main:app",
+          "--host", "0.0.0.0",
+          "--port", "8000",
+          "--reload"
+        ],
+        "jinja": true,
+        "justMyCode": true
+      },
+      {
+        "name": "Debug - Addition‑MS",
+        "type": "python",
+        "request": "launch",
+        "module": "uvicorn",
+        "args": [
+          "addition_ms.main:app",
+          "--host", "0.0.0.0",
+          "--port", "8001",
+          "--reload"
+        ],
+        "jinja": true,
+        "justMyCode": true
+      },
+      {
+        "name": "Debug - Multiply‑MS",
+        "type": "python",
+        "request": "launch",
+        "module": "uvicorn",
+        "args": [
+          "multiply_ms.main:app",
+          "--host", "0.0.0.0",
+          "--port", "8002",
+          "--reload"
+        ],
+        "jinja": true,
+        "justMyCode": true
+      },
+      /* ───── servicios en modo attach ───── */
+      { "name": "Attach CDU",        "type": "python", "request": "attach", "connect": { "host": "localhost", "port": 5673 } },
+      { "name": "Attach Addition‑MS", "type": "python", "request": "attach", "connect": { "host": "localhost", "port": 5671 } },
+      { "name": "Attach Multiply‑MS", "type": "python", "request": "attach", "connect": { "host": "localhost", "port": 5672 } }
+    ],
+
+    /* ───── lanza los tres a la vez ───── */
+    "compounds": [
+      {
+        "name": "Debug - Todos",
+        "configurations": [
+          "Debug - Addition‑MS",
+          "Debug - Multiply‑MS",
+          "Debug - CDU"
+        ],
+        "stopAll": true
+      }
+    ]
+  }
+  
