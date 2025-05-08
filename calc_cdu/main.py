@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from common.exception_handlers import add_exception_handlers
 from calc_cdu.app.routes import cdu_endpoints
 from calc_cdu.app.config import settings
 
 app = FastAPI(title="Calc‑CDU")
+add_exception_handlers(app)
 app.include_router(cdu_endpoints.router)
 
 

@@ -1,8 +1,11 @@
 from fastapi import FastAPI
+from common.exception_handlers import add_exception_handlers
 from addition_ms.app.routes import microservice_endpoints
 from addition_ms.app.config import settings
 
+
 app = FastAPI(title="Addition‑MS")
+add_exception_handlers(app)
 app.include_router(microservice_endpoints.router)
 
 

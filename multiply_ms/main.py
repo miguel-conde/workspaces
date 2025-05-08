@@ -1,8 +1,10 @@
 from fastapi import FastAPI
+from common.exception_handlers import add_exception_handlers
 from multiply_ms.app.routes import microservice_endpoints
 from multiply_ms.app.config import settings
 
 app = FastAPI(title="Multiply‑MS")
+add_exception_handlers(app)
 app.include_router(microservice_endpoints.router)
 
 
