@@ -1,8 +1,29 @@
-### Casos felíces
+### Caso feliz ─ Sumar 5 + 3 y duplicar
 POST http://localhost:8000/cdu/add_then_double/
 Content-Type: application/json
 
 {
   "a": 5,
   "b": 3
+}
+
+
+### Error ➊ ─ Entrada vacía  ➜ 400 Faltan campos
+POST http://localhost:8000/cdu/add_then_double/
+Content-Type: application/json
+
+{}                   
+
+
+
+### Error ➋ ─ Microservicio de suma caído  ➜ 502 Upstream
+# Antes de lanzar esta petición **detén** la tarea `run‑addition`
+#   – Panel TERMiNAL: Ctrl+C en la pestaña de addition‑ms
+#   – o  `pkill -f 'uvicorn.*8001'` en una terminal
+POST http://localhost:8000/cdu/add_then_double/
+Content-Type: application/json
+
+{
+  "a": 1,
+  "b": 2
 }
