@@ -3,16 +3,22 @@ Configuración del microservicio utilizando Pydantic.
 
 """
 
-import os
-from dotenv import load_dotenv
-from pydantic_settings import BaseSettings
-
-load_dotenv()
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = os.getenv("PROJECT_NAME", "ADDITION MS")
-    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    # identidad / metadatos
+    project_name: str = "addition-ms"
+    environment: str = "development"
+
+    # puerto (no lo usa FastAPI directamente,
+    #        pero puede servir a health probes o docs)
+    port: int = 8001
+
+    model_config = SettingsConfigDict(
+        env_file=".env",        # busca en la misma carpeta del servicio
+        extra="ignore"          # ignora variables no declaradas
+    )
 
 
 settings = Settings()

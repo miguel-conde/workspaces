@@ -3,16 +3,15 @@ Configuración del microservicio utilizando Pydantic.
 
 """
 
-import os
-from dotenv import load_dotenv
-from pydantic_settings import BaseSettings
-
-load_dotenv()
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = os.getenv("PROJECT_NAME", "MULTIPLY MS")
-    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    project_name: str = "multiply-ms"
+    environment: str = "development"
+    port: int = 8002
+
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
 
 settings = Settings()
