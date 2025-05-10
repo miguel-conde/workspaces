@@ -4,24 +4,27 @@
       {
         "label": "run‑addition",
         "type": "shell",
+        "dependsOn": ["kill-debugpy-5671"],
         // "command": "uvicorn addition_ms.main:app --reload --port 8001",
-        "command": "python -m debugpy --listen 5671 -m uvicorn addition_ms.main:app --port 8001 --reload",
+        "command": "python -m debugpy --listen 5671 -m uvicorn addition_ms.main:app --host 0.0.0.0 --port 8001 --reload",
         "isBackground": false,        // se queda en primer plano mostrando logs
         "presentation": { "panel": "dedicated" }
       },
       {
         "label": "run‑multiply",
         "type": "shell",
+        "dependsOn": ["kill-debugpy-5672"],
         // "command": "uvicorn multiply_ms.main:app --reload --port 8002",
-        "command": "python -m debugpy --listen 5672 -m uvicorn multiply_ms.main:app --port 8002 --reload",
+        "command": "python -m debugpy --listen 5672 -m uvicorn multiply_ms.main:app --host 0.0.0.0 --port 8002 --reload",
         "isBackground": false,        // se queda en primer plano mostrando logs
         "presentation": { "panel": "dedicated" }
       },
       {
         "label": "run‑cdu",
         "type": "shell",
+        "dependsOn": ["kill-debugpy-5673"],
         // "command": "uvicorn calc_cdu.main:app --reload --port 8000",
-        "command": "python -m debugpy --listen 5673 -m uvicorn calc_cdu.main:app --port 8000 --reload",
+        "command": "python -m debugpy --listen 5673 -m uvicorn calc_cdu.main:app --host 0.0.0.0 --port 8000 --reload",
         "isBackground": false,        // se queda en primer plano mostrando logs
         "options": { "env": { "HTTPX_LOG_LEVEL": "debug" } },   // mismo log detallado
         "presentation": { "panel": "dedicated" }
@@ -32,8 +35,30 @@
         "label": "run‑all",
         "dependsOn": ["run‑addition", "run‑multiply", "run‑cdu"],
         "dependsOrder": "parallel",
-        "group": "build"
-      }
+        "group": { "kind": "build", "isDefault": true }
+      },
+
+      {
+        "label": "kill-debugpy-5673",
+        "type": "shell",
+        "command": "pkill -f 'debugpy.*5673' || true",
+        "problemMatcher": [],          // tarea instantánea, VS Code no espera salida
+        "presentation": { "reveal": "silent" }
+      },
+      {
+        "label": "kill-debugpy-5672",
+        "type": "shell",
+        "command": "pkill -f 'debugpy.*5672' || true",
+        "problemMatcher": [],          // tarea instantánea, VS Code no espera salida
+        "presentation": { "reveal": "silent" }
+      },
+      {
+        "label": "kill-debugpy-5671",
+        "type": "shell",
+        "command": "pkill -f 'debugpy.*5671' || true",
+        "problemMatcher": [],          // tarea instantánea, VS Code no espera salida
+        "presentation": { "reveal": "silent" }
+      }      
     ]
   }
   

@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from common.exception_handlers import add_exception_handlers
 from addition_ms.app.routes import microservice_endpoints
@@ -6,7 +7,17 @@ from common.logging import configure_logging
 from common.middleware import TraceMiddleware
 
 
-app = FastAPI(title="Addition‑MS")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    configure_logging()
+    print(f"🌱 {settings.project_name} up"
+          f"in {settings.environment}…")
+    yield
+    print(f"🌿 {settings.project_name} down"
+          f"in {settings.environment}…")
+
+
+app = FastAPI(title=settings.project_name, lifespan=lifespan)
 configure_logging()
 app.add_middleware(TraceMiddleware)
 add_exception_handlers(app)
@@ -20,14 +31,3 @@ async def health():
     funcionamiento.
     """
     return {"message": "Fast API Skeleton is up!"}
-
-
-@app.on_event("startup")
-async def on_startup():
-    print(f"Starting {settings.project_name} in \
-            {settings.environment} environment...")
-
-
-@app.on_event("shutdown")
-async def on_shutdown():
-    print(f"Shutting down {settings.project_name}...")
