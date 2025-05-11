@@ -58,7 +58,7 @@
         "command": "pkill -f 'debugpy.*5671' || true",
         "problemMatcher": [],          // tarea instantánea, VS Code no espera salida
         "presentation": { "reveal": "silent" }
-      }      
+      }
     ]
-  }
+}
   
