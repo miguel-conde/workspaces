@@ -27,6 +27,7 @@ help:
 	@echo "  $(YELLOW)make restart$(NC)    → Reinicia docker-compose"
 	@echo "  $(YELLOW)make logs$(NC)       → Logs en tiempo real"
 	@echo "  $(YELLOW)make ps$(NC)         → Estado de contenedores"
+	@echo "  $(YELLOW)make clean$(NC)      → Detiene y borra todos los contenedores vivos o zombies"
 	@echo "  $(YELLOW)make build$(NC)      → Construye imágenes"
 	@echo "  $(YELLOW)make test$(NC)       → Ejecuta todos los tests"
 	@echo "  $(YELLOW)make test-watch$(NC) → Ejecuta tests parando en el primer error"
@@ -53,6 +54,10 @@ logs:
 
 ps:
 	@$(COMPOSE) ps
+
+clean:
+	docker stop $(docker ps -q) || true
+	docker rm $(docker ps -aq) || true
 
 build:
 	@echo "$(GREEN)→ Build de imágenes...$(NC)"
